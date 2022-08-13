@@ -7,7 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Api.Application.Contracts\Api.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Api.Application.Tests\Api.Application.Tests.csproj" />
+    <ProjectReference Include="..\Api.Application\Api.Application.csproj" />
+    <ProjectReference Include="..\Api.BusinessLayer\Api.BusinessLayer.csproj" />
+    <ProjectReference Include="..\Api.CrossCutting.Contracts\Api.CrossCutting.Contracts.csproj" />
+    <ProjectReference Include="..\Api.CrossCutting\Api.CrossCutting.csproj" />
+    <ProjectReference Include="..\Api.DataAccess.Contracts\Api.DataAccess.Contracts.csproj" />
+    <ProjectReference Include="..\Api.DataAccess\Api.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>
