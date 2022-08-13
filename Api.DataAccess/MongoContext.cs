@@ -1,52 +1,33 @@
 ﻿using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 
 namespace Api.DataAccess
 {
-    public class MongoContext
+    public class MongoContext : IDisposable
     {
-        private IMongoDatabase Database { get; set; }
-        private readonly List<Func<Task>> _commands;
+        private IMongoDatabase _db { get; set; }
+        private MongoClient _mongoClient { get; set; }
         public MongoContext(IConfiguration configuration)
         {
-            // Set Guid to CSharp style (with dash -)
-            BsonDefaults.GuidRepresentation = GuidRepresentation.CSharpLegacy;
-
-            // Every command will be stored and it'll be processed at SaveChanges
-            _commands = new List<Func<Task>>();
-
-            RegisterConventions();
-
-            // Configure mongo (You can inject the config, just to simplify)
-            var mongoClient = new MongoClient(configuration.GetSection("MongoSettings").GetSection("Connection").Value);
-
-            Database = mongoClient.GetDatabase(configuration.GetSection("MongoSettings").GetSection("DatabaseName").Value);
-        }
-
-        private void RegisterConventions()
-        {
-            var pack = new ConventionPack
-                            {
-                            new IgnoreExtraElementsConvention(true),
-                            new IgnoreIfDefaultConvention(true)
-                            };
-            ConventionRegistry.Register("My Solution Conventions", pack, t => true);
+            _mongoClient = new MongoClient("mongodb+srv://mikicastrodev:Zebrahead310@cluster0.fg12jcd.mongodb.net/?retryWrites=true&w=majority");
+            _db = _mongoClient.GetDatabase("Application");
         }
 
         public int SaveChanges()
         {
-            var qtd = _commands.Count;
+            /*var qtd = _commands.Count;
             foreach (var command in _commands)
             {
                 command();
             }
 
-            _commands.Clear();
-            return qtd;
+            _commands.Clear();*/
+            return 0;
         }
 
         public IMongoCollection<T> GetCollection<T>(string name)
         {
-            return Database.GetCollection<T>(name);
+            return _db.GetCollection<T>(name);
         }
 
         public void Dispose()
@@ -56,7 +37,7 @@ namespace Api.DataAccess
 
         public Task AddCommand(Func<Task> func)
         {
-            _commands.Add(func);
+            //_db.Add(func);
             return Task.CompletedTask;
         }
     }

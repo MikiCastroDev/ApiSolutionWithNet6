@@ -13,10 +13,14 @@ namespace Api.Application.Services
             using (IUnitOfWorkMySQL uow = GetUowInstance())
             {
                 Order order = uow.Orders.GetById(2);
-                return order.Header;
-            }
+                using (IUnitOfWorkMongoDB uowMongo = GetUowMongoInstance())
+                {
+                    IEnumerable<OrderMongo> orders = uowMongo.Orders.GetAll();
+                    return orders.ToList()[0].Header;
+                }
 
-            return "falla";
+                return "falla";
+            }
         }
 
         public string GetWeatherByCountry()
@@ -27,6 +31,11 @@ namespace Api.Application.Services
         private IUnitOfWorkMySQL GetUowInstance()
         {
             return _serviceProvider.GetService(typeof(IUnitOfWorkMySQL)) as IUnitOfWorkMySQL;
+        }
+
+        private IUnitOfWorkMongoDB GetUowMongoInstance()
+        {
+            return _serviceProvider.GetService(typeof(IUnitOfWorkMongoDB)) as IUnitOfWorkMongoDB;
         }
     }
 }

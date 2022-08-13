@@ -1,14 +1,22 @@
 ﻿using Api.DataAccess.Contracts;
+using Api.DataAccess.Contracts.Repositories;
+using Api.DataAccess.Repositories;
 
 namespace Api.DataAccess
 {
     public class UnitOfWorkMongoDB : IUnitOfWorkMongoDB
     {
-        private readonly MongoContext _context;
+        readonly MongoContext _context;
+
+        #region Repositories
+        public IOrderMongoRepository Orders { get; }
+        #endregion
 
         public UnitOfWorkMongoDB(MongoContext context)
         {
             _context = context;
+
+            Orders = new OrderMongoRepository(context);
         }
 
         public bool Commit()

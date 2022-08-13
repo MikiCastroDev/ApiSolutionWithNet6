@@ -1,3 +1,4 @@
+using Api.Application.Config;
 using Api.Application.Contracts.Services;
 using Api.Application.Services;
 using Api.DataAccess;
@@ -15,10 +16,20 @@ builder.Services.AddDbContext<DatabaseContext>((options)=>
 {
     options.UseMySql(builder.Configuration.GetConnectionString("PlanetScale"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("PlanetScale")));
 });
+builder.Services.Configure<MongoSettings>(options =>
+{
+    options.ConnectionString
+        = "mongodb+srv://mikicastrodev:Zebrahead310@cluster0.fg12jcd.mongodb.net/?retryWrites=true&w=majority";
+    options.Database
+        = "Order";
+});
+builder.Services.AddSingleton<MongoContext>();
 #endregion
 #region Dependency Injection
 builder.Services.AddScoped<IUnitOfWorkMySQL, UnitOfWorkMySQL>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IUnitOfWorkMongoDB, UnitOfWorkMongoDB>();
+builder.Services.AddScoped<IOrderMongoRepository, OrderMongoRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 #endregion
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
