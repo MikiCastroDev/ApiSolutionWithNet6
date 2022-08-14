@@ -1,4 +1,5 @@
 ﻿using Api.CrossCutting.Contracts.ApiCaller;
+using AutoMapper;
 
 namespace Api.Application.Services
 {
@@ -6,10 +7,12 @@ namespace Api.Application.Services
     {
         protected IServiceProvider _serviceProvider;
         protected IApiCaller _apiCaller;
-        public BaseAppService(IServiceProvider serviceProvider, IApiCaller apiCaller)
+        protected IMapper _mapper;
+        public BaseAppService(IServiceProvider serviceProvider, IApiCaller apiCaller, IMapper mapper)
         {
             _serviceProvider = serviceProvider;
             _apiCaller = apiCaller;
+            _mapper = mapper;
         }
     }
 }

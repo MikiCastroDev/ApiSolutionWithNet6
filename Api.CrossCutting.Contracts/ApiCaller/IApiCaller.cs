@@ -4,6 +4,6 @@ namespace Api.CrossCutting.Contracts.ApiCaller
 {
     public interface IApiCaller
     {
-        Task<WeatherDTO> GetResponseFromWeatherStack(string city);
+        Task<WeatherStackDTO> GetResponseFromWeatherStack(string city);
     }
 }

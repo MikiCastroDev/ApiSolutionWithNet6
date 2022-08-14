@@ -1,6 +1,6 @@
-﻿namespace Api.Application.DTOs
+﻿namespace Api.Application.Contracts.DTOs
 {
-    public class WheaterDTO
+    public class WeatherDTO
     {
         public string temperature { get; set; }
         public int humidity { get; set; }

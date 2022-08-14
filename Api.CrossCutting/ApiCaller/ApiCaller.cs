@@ -8,6 +8,9 @@ namespace Api.CrossCutting.ApiCaller
 {
     public class ApiCaller : IApiCaller
     {
+        #region Constants
+        public string QUERY_PARAMS_FOR_WEATHERSTACK = "?access_key={0}&query={1}";
+        #endregion
 
         private HttpClient _httpClient;
         private readonly IAppConfig config;
@@ -17,7 +20,7 @@ namespace Api.CrossCutting.ApiCaller
             config = appConfig;
         }
 
-        public async Task<WeatherDTO> GetResponseFromWeatherStack(string city)
+        public async Task<WeatherStackDTO> GetResponseFromWeatherStack(string city)
         {
             _httpClient = new HttpClient
             {
@@ -25,18 +28,18 @@ namespace Api.CrossCutting.ApiCaller
             };
 
             _httpClient.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+                new MediaTypeWithQualityHeaderValue(Constants.JSON_QUERY_HEADER));
 
-            var response = await _httpClient.GetAsync(string.Format("?access_key={0}&query={1}"
+            var response = await _httpClient.GetAsync(string.Format(QUERY_PARAMS_FOR_WEATHERSTACK
                                                                     , config.WeatherStackToken
                                                                     , city)); ;
 
             if (!response.IsSuccessStatusCode)
-                return default(WeatherDTO);
+                return default(WeatherStackDTO);
 
             string result = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<WeatherDTO>(result);
+            return JsonConvert.DeserializeObject<WeatherStackDTO>(result);
         }
     }
 }

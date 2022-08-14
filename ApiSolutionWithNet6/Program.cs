@@ -1,4 +1,4 @@
-using Api.Application.Config;
+﻿using Api.Application.Config;
 using Api.Application.Contracts.Config;
 using Api.Application.Contracts.Services;
 using Api.Application.Services;
@@ -8,6 +8,7 @@ using Api.DataAccess;
 using Api.DataAccess.Contracts;
 using Api.DataAccess.Contracts.Repositories;
 using Api.DataAccess.Repositories;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 #region DbContext
-builder.Services.AddDbContext<DatabaseContext>((options)=>
+builder.Services.AddDbContext<DatabaseContext>((options) =>
 {
     options.UseMySql(builder.Configuration.GetConnectionString("PlanetScale"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("PlanetScale")));
 });
@@ -28,6 +29,11 @@ builder.Services.Configure<MongoSettings>(options =>
 });
 builder.Services.AddSingleton<MongoContext>();
 #endregion
+
+#region AutoMapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+#endregion
+
 #region Dependency Injection
 builder.Services.AddSingleton<IAppConfig, AppConfig>();
 builder.Services.AddSingleton<IApiCaller, ApiCaller>();

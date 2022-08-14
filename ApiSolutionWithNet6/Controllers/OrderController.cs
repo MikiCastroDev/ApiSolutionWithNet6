@@ -1,7 +1,6 @@
 ﻿using Api.Application.Contracts.Services;
-using Api.DTOs;
+using Api.Application.Contracts.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Api.Controllers
 {
@@ -26,9 +25,12 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public string RegisterOrder(OrderDTO order, bool sandbox)
+        public async Task<IActionResult> RegisterOrder(OrderDTO order, bool sandbox)
         {
-            return "Test";
+            if (order == null)
+                return BadRequest();
+
+            return Ok(await _service.RegisterOrder(order, sandbox));
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Api.CrossCutting.Contracts.Objects
 {
-    public class WeatherDTO
+    public class WeatherStackDTO
     {
         public RequestDTO request { get; set; }
         public LocationDTO location { get; set; }
