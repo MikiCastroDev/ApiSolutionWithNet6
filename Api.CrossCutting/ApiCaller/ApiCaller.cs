@@ -1,5 +1,7 @@
 ﻿using Api.Application.Contracts.Config;
 using Api.CrossCutting.Contracts.ApiCaller;
+using Api.CrossCutting.Contracts.Objects;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
 namespace Api.CrossCutting.ApiCaller
@@ -7,19 +9,34 @@ namespace Api.CrossCutting.ApiCaller
     public class ApiCaller : IApiCaller
     {
 
-        private readonly HttpClient _httpClient;
+        private HttpClient _httpClient;
+        private readonly IAppConfig config;
 
         public ApiCaller(IAppConfig appConfig)
         {
+            config = appConfig;
+        }
 
+        public async Task<WeatherDTO> GetResponseFromWeatherStack(string city)
+        {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri(appConfig.ServiceUrl)
+                BaseAddress = new Uri(config.WeatherStackUrl)
             };
 
             _httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
+            var response = await _httpClient.GetAsync(string.Format("?access_key={0}&query={1}"
+                                                                    , config.WeatherStackToken
+                                                                    , city)); ;
+
+            if (!response.IsSuccessStatusCode)
+                return default(WeatherDTO);
+
+            string result = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<WeatherDTO>(result);
         }
     }
 }

@@ -1,6 +1,9 @@
 using Api.Application.Config;
+using Api.Application.Contracts.Config;
 using Api.Application.Contracts.Services;
 using Api.Application.Services;
+using Api.CrossCutting.ApiCaller;
+using Api.CrossCutting.Contracts.ApiCaller;
 using Api.DataAccess;
 using Api.DataAccess.Contracts;
 using Api.DataAccess.Contracts.Repositories;
@@ -26,6 +29,8 @@ builder.Services.Configure<MongoSettings>(options =>
 builder.Services.AddSingleton<MongoContext>();
 #endregion
 #region Dependency Injection
+builder.Services.AddSingleton<IAppConfig, AppConfig>();
+builder.Services.AddSingleton<IApiCaller, ApiCaller>();
 builder.Services.AddScoped<IUnitOfWorkMySQL, UnitOfWorkMySQL>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IUnitOfWorkMongoDB, UnitOfWorkMongoDB>();

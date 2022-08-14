@@ -1,4 +1,6 @@
 ﻿using Api.Application.Contracts.Services;
+using Api.Application.DTOs;
+using Api.CrossCutting.Contracts.ApiCaller;
 using Api.DataAccess.Contracts;
 using Api.DataAccess.Contracts.Entities;
 
@@ -6,8 +8,10 @@ namespace Api.Application.Services
 {
     public class OrderService : BaseAppService, IOrderService
     {
+        private readonly IApiCaller caller;
 
-        public OrderService(IServiceProvider serviceProvider) : base(serviceProvider){ }
+        public OrderService(IServiceProvider serviceProvider, IApiCaller apiCaller) 
+            : base(serviceProvider, apiCaller){ }
         public string RegisterOrder()
         {
             using (IUnitOfWorkMySQL uow = GetUowInstance())
@@ -23,11 +27,15 @@ namespace Api.Application.Services
             }
         }
 
-        public string GetWeatherByCountry()
+        public async Task<string> GetWeatherByCity(string city)
         {
-            return "this";
+            WheaterDTO wheater = new WheaterDTO();
+            var result = await _apiCaller.GetResponseFromWeatherStack(city);
+            wheater.temperature = (result).current.temperature;
+            return "Temperature " + wheater.temperature;
         }
 
+        #region Private Methods
         private IUnitOfWorkMySQL GetUowInstance()
         {
             return _serviceProvider.GetService(typeof(IUnitOfWorkMySQL)) as IUnitOfWorkMySQL;
@@ -37,5 +45,6 @@ namespace Api.Application.Services
         {
             return _serviceProvider.GetService(typeof(IUnitOfWorkMongoDB)) as IUnitOfWorkMongoDB;
         }
+        #endregion
     }
 }

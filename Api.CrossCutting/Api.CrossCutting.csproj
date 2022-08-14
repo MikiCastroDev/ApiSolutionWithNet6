@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Api.Application.Contracts\Api.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Api.Application\Api.Application.csproj" />
     <ProjectReference Include="..\Api.CrossCutting.Contracts\Api.CrossCutting.Contracts.csproj" />
   </ItemGroup>
 

@@ -11,6 +11,10 @@ namespace Api.Application.Config
         {
             _configuration = configuration;
         }
-        public string ServiceUrl => _configuration.GetSection("ServiceUrl:Url").Value;
+        public string WeatherStackUrl => _configuration.GetSection("WeatherStack:Url").Value;
+        public string WeatherStackToken => _configuration.GetSection("WeatherStack:Token").Value;
+        public string MongoDatabase => _configuration.GetSection("MongoDB:Database").Value;
+        public string ConnectionStringMySQL => _configuration.GetSection("ConnectionStrings:PlanetScale").Value;
+        public string ConnectionStringMongoDB => _configuration.GetSection("ConnectionStrings:MongoAtalas").Value;
     }
 }

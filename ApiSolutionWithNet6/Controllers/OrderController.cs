@@ -1,6 +1,7 @@
 ﻿using Api.Application.Contracts.Services;
 using Api.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Api.Controllers
 {
@@ -15,10 +16,13 @@ namespace Api.Controllers
             _service = service;
         }
 
-        [HttpGet]
-        public string GetWeatherByCountry()
+        [HttpGet("Weather/{city}")]
+        public async Task<IActionResult> GetWeatherByCity(string city)
         {
-            return _service.RegisterOrder();
+            if (String.IsNullOrEmpty(city))
+                return BadRequest();
+
+            return Ok(await _service.GetWeatherByCity(city));
         }
 
         [HttpPost]

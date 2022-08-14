@@ -3,6 +3,6 @@
     public interface IOrderService
     {
         string RegisterOrder();
-        string GetWeatherByCountry();
+        Task<string> GetWeatherByCity(string city);
     }
 }

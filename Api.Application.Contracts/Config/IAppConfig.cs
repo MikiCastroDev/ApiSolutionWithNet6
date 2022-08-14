@@ -2,6 +2,10 @@
 {
     public interface IAppConfig
     {
-        string ServiceUrl { get; }
+        string WeatherStackUrl { get; }
+        string WeatherStackToken { get; }
+        string MongoDatabase { get; }
+        string ConnectionStringMySQL { get; }
+        string ConnectionStringMongoDB { get; }
     }
 }
