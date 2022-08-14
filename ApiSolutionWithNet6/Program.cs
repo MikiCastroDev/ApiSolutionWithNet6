@@ -19,9 +19,9 @@ builder.Services.AddDbContext<DatabaseContext>((options)=>
 builder.Services.Configure<MongoSettings>(options =>
 {
     options.ConnectionString
-        = "mongodb+srv://mikicastrodev:Zebrahead310@cluster0.fg12jcd.mongodb.net/?retryWrites=true&w=majority";
+        = builder.Configuration.GetConnectionString("MongoAtlas");
     options.Database
-        = "Order";
+        = builder.Configuration.GetValue<string>("MongoDB:Database");
 });
 builder.Services.AddSingleton<MongoContext>();
 #endregion

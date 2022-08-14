@@ -9,8 +9,8 @@ namespace Api.DataAccess
         private MongoClient _mongoClient { get; set; }
         public MongoContext(IConfiguration configuration)
         {
-            _mongoClient = new MongoClient("mongodb+srv://mikicastrodev:Zebrahead310@cluster0.fg12jcd.mongodb.net/?retryWrites=true&w=majority");
-            _db = _mongoClient.GetDatabase("Application");
+            _mongoClient = new MongoClient(configuration.GetConnectionString("MongoAtlas"));
+            _db = _mongoClient.GetDatabase(configuration.GetValue<string>("MongoDB:Database"));
         }
 
         public int SaveChanges()
