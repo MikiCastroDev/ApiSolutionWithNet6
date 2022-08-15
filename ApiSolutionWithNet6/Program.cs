@@ -8,26 +8,31 @@ using Api.DataAccess;
 using Api.DataAccess.Contracts;
 using Api.DataAccess.Contracts.Repositories;
 using Api.DataAccess.Repositories;
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+
 #region DbContext
-builder.Services.AddDbContext<DatabaseContext>((options) =>
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddDbContext<DatabaseContext> ((serviceProvider, dbContextBuilder) =>
 {
-    options.UseMySql(builder.Configuration.GetConnectionString("PlanetScale"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("PlanetScale")));
+    var connectionString = String.Empty;
+    var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
+    var sandbox = System.Web.HttpUtility.ParseQueryString(httpContextAccessor.HttpContext.Request.QueryString.Value).Get("sandbox");
+
+    if ((sandbox == null) || !Convert.ToBoolean(sandbox))
+        connectionString = builder.Configuration.GetConnectionString("MySQLDevelopment");
+    else
+        connectionString = builder.Configuration.GetConnectionString("Production");
+
+
+    dbContextBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
-builder.Services.Configure<MongoSettings>(options =>
-{
-    options.ConnectionString
-        = builder.Configuration.GetConnectionString("MongoAtlas");
-    options.Database
-        = builder.Configuration.GetValue<string>("MongoDB:Database");
-});
-builder.Services.AddSingleton<MongoContext>();
+
+builder.Services.AddScoped<MongoContext>();
 #endregion
 
 #region AutoMapper
@@ -43,6 +48,7 @@ builder.Services.AddScoped<IUnitOfWorkMongoDB, UnitOfWorkMongoDB>();
 builder.Services.AddScoped<IOrderMongoRepository, OrderMongoRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 #endregion
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

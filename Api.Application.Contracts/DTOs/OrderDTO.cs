@@ -1,6 +1,6 @@
 ﻿namespace Api.Application.Contracts.DTOs
 {
-    public class OrderDTO
+    public class OrderRequest
     {
         public string header { get; set; }
         public string detail { get; set; }

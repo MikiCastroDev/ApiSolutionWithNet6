@@ -14,13 +14,6 @@ namespace Api.DataAccess
 
         public DbSet<Order> Orders { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            string connectionString = Configuration.GetConnectionString("PlanetScale");
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-            base.OnConfiguring(optionsBuilder);
-        }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

@@ -2,10 +2,8 @@
 {
     public interface IMongoRepository<T>
     {
-        public Task Add(T entity);
-        public T GetById(long id);
+        public void Add(T entity);
         public IEnumerable<T> GetAll();
-        public Task Remove(long id);
         public void Dispose();
     }
 }

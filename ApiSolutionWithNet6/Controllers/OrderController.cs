@@ -24,8 +24,8 @@ namespace Api.Controllers
             return Ok(await _service.GetWeatherByCity(city));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> RegisterOrder(OrderDTO order, bool sandbox)
+        [HttpPost()]
+        public async Task<IActionResult> RegisterOrder([FromBody]OrderRequest order, bool sandbox)
         {
             if (order == null)
                 return BadRequest();

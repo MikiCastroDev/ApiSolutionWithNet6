@@ -4,6 +4,7 @@ using Api.CrossCutting.Contracts.ApiCaller;
 using Api.DataAccess.Contracts;
 using Api.DataAccess.Contracts.Entities;
 using AutoMapper;
+using MongoDB.Bson;
 
 namespace Api.Application.Services
 {
@@ -11,19 +12,28 @@ namespace Api.Application.Services
     {
         public OrderService(IServiceProvider serviceProvider, IApiCaller apiCaller, IMapper mapper) 
             : base(serviceProvider, apiCaller, mapper){ }
-        public string RegisterOrder(OrderDTO order, bool sandbox)
+        public async Task<Order> RegisterOrder(OrderRequest order, bool sandbox)
         {
             using (IUnitOfWorkMySQL uow = GetUowInstance())
             {
                 try
                 {
-                    Order orderToAdd = new Order(order.header, order.detail);
+                    int humidity = _apiCaller.GetResponseFromWeatherStack(order.city).Result.current.humidity;
+                    Order orderToAdd = new Order(order.header, order.detail, humidity);
                     uow.Orders.Add(orderToAdd);
 
-                    using (IUnitOfWorkMongoDB uowMongo = GetUowMongoInstance())
+                    if (uow.Commit() > 0)
                     {
-                        IEnumerable<OrderMongo> orders = uowMongo.Orders.GetAll();
-                        return orders.ToList()[0].Header;
+                        using (IUnitOfWorkMongoDB uowMongo = GetUowMongoInstance())
+                        {
+                            OrderMongo orderToAddInMongo = new OrderMongo(order.header, order.detail, humidity);
+                            uowMongo.Orders.Add(orderToAddInMongo);
+
+                            if(orderToAddInMongo._id != default(ObjectId))
+                            {
+                                return orderToAdd;
+                            }
+                        }
                     }
                 } 
                 catch (Exception ex)
@@ -32,7 +42,7 @@ namespace Api.Application.Services
                 }
                 
 
-                return "falla";
+                return null;
             }
         }
 

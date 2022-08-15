@@ -1,10 +1,11 @@
 ﻿using Api.Application.Contracts.DTOs;
+using Api.DataAccess.Contracts.Entities;
 
 namespace Api.Application.Contracts.Services
 {
     public interface IOrderService
     {
-        string RegisterOrder(OrderDTO order, bool sandbox);
+        Task<Order> RegisterOrder(OrderRequest order, bool sandbox);
         Task<WeatherDTO> GetWeatherByCity(string city);
     }
 }

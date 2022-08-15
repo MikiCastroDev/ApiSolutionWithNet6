@@ -18,12 +18,6 @@ namespace Api.DataAccess
 
             Orders = new OrderMongoRepository(context);
         }
-
-        public bool Commit()
-        {
-            return _context.SaveChanges() > 0;
-        }
-
         public void Dispose()
         {
             _context.Dispose();

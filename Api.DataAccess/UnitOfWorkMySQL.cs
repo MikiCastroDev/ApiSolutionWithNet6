@@ -19,7 +19,7 @@ namespace Api.DataAccess
             Orders = new OrderRepository(context);
         }
 
-        int IUnitOfWorkMySQL.Commit()
+        public int Commit()
         {
             return _context.SaveChanges();
         }

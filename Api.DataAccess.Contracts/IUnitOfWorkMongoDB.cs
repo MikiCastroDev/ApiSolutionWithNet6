@@ -2,12 +2,10 @@
 
 namespace Api.DataAccess.Contracts
 {
-    public interface IUnitOfWorkMongoDB : IDisposable
+    public interface IUnitOfWorkMongoDB  : IDisposable
     {
         #region Repository
         IOrderMongoRepository Orders { get; }
         #endregion
-
-        bool Commit();
     }
 }
