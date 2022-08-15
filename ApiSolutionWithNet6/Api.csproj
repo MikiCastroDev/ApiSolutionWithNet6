@@ -15,9 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Api.Application.Contracts\Api.Application.Contracts.csproj" />
-    <ProjectReference Include="..\Api.Application.Tests\Api.Application.Tests.csproj" />
     <ProjectReference Include="..\Api.Application\Api.Application.csproj" />
-    <ProjectReference Include="..\Api.BusinessLayer\Api.BusinessLayer.csproj" />
     <ProjectReference Include="..\Api.CrossCutting.Contracts\Api.CrossCutting.Contracts.csproj" />
     <ProjectReference Include="..\Api.CrossCutting\Api.CrossCutting.csproj" />
     <ProjectReference Include="..\Api.DataAccess.Contracts\Api.DataAccess.Contracts.csproj" />

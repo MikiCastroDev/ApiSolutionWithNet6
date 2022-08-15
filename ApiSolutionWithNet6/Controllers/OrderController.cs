@@ -21,7 +21,12 @@ namespace Api.Controllers
             if (String.IsNullOrEmpty(city))
                 return BadRequest();
 
-            return Ok(await _service.GetWeatherByCity(city));
+            WeatherDTO result = await _service.GetWeatherByCity(city);
+
+            if (result == null || result == default(WeatherDTO))
+                return NotFound();
+            else
+                return Ok(result);
         }
 
         [HttpPost()]
@@ -30,7 +35,12 @@ namespace Api.Controllers
             if (order == null)
                 return BadRequest();
 
-            return Ok(await _service.RegisterOrder(order, sandbox));
+            OrderDTO result = (await _service.RegisterOrder(order, sandbox));
+
+            if (result == null || result == default(OrderDTO))
+                return NotFound();
+            else
+                return Ok(result);
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿namespace Api.Application.Contracts.DTOs
 {
-    public class OrderRequest
+    public class OrderDTO
     {
         public string header { get; set; }
         public string detail { get; set; }
-        public string city { get; set; }
+        public int humidity { get; set; }
+        public long mysqlId { get; set; }
+        public string mongoId { get; set; }
     }
 }

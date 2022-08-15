@@ -49,6 +49,14 @@ builder.Services.AddScoped<IOrderMongoRepository, OrderMongoRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 #endregion
 
+#region Logger
+builder.Services.AddTransient(provider =>
+{
+    var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
+    const string categoryName = "Log:";
+    return loggerFactory.CreateLogger(categoryName);
+});
+#endregion
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

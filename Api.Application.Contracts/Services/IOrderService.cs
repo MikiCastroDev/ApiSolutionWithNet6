@@ -5,7 +5,7 @@ namespace Api.Application.Contracts.Services
 {
     public interface IOrderService
     {
-        Task<Order> RegisterOrder(OrderRequest order, bool sandbox);
+        Task<OrderDTO?> RegisterOrder(OrderRequest order, bool sandbox);
         Task<WeatherDTO> GetWeatherByCity(string city);
     }
 }
