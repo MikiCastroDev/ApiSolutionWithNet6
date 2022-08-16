@@ -13,6 +13,13 @@ namespace Api.Application.Services
     {
         public OrderService(IServiceProvider serviceProvider, IApiCaller apiCaller, IMapper mapper, ILogger logger) 
             : base(serviceProvider, apiCaller, mapper, logger){ }
+
+        /// <summary>
+        /// Register an order
+        /// </summary>
+        /// <param name="order">Order data</param>
+        /// <param name="sandbox">Database configuration</param>
+        /// <returns></returns>
         public async Task<OrderDTO> RegisterOrder(OrderRequest order, bool sandbox)
         {
             _logger.LogInformation($"->RegisterOrder: {order.header}");
@@ -21,7 +28,9 @@ namespace Api.Application.Services
             {
                 using (IUnitOfWorkMySQL uow = GetUowInstance())
                 {
+                    //Get humidity from city in the current time
                     int humidity = _apiCaller.GetResponseFromWeatherStack(order.city).Result.current.humidity;
+                    //We create the data to persist in MySQL
                     Order orderToAdd = new Order(order.header, order.detail, humidity);
                     uow.Orders.Add(orderToAdd);
 
@@ -30,6 +39,7 @@ namespace Api.Application.Services
                         _logger.LogInformation($"-->RegisterOrder - Registered: {order.header} in MySQL database");
                         using (IUnitOfWorkMongoDB uowMongo = GetUowMongoInstance())
                         {
+                            //We create the data to persist in MySQL
                             OrderMongo orderToAddInMongo = new OrderMongo(order.header, order.detail, humidity);
                             uowMongo.Orders.Add(orderToAddInMongo);
 

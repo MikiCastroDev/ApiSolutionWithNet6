@@ -29,8 +29,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.CrossCutting.Contracts"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.CrossCutting", "Api.CrossCutting\Api.CrossCutting.csproj", "{8D885F8E-44B0-4961-8EC6-4ECFF17547B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Test", "Api.Test\Api.Test.csproj", "{37F4F9DF-5FA7-43BE-8607-7F7828BDEFEA}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,10 +63,6 @@ Global
 		{8D885F8E-44B0-4961-8EC6-4ECFF17547B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D885F8E-44B0-4961-8EC6-4ECFF17547B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D885F8E-44B0-4961-8EC6-4ECFF17547B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37F4F9DF-5FA7-43BE-8607-7F7828BDEFEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{37F4F9DF-5FA7-43BE-8607-7F7828BDEFEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37F4F9DF-5FA7-43BE-8607-7F7828BDEFEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37F4F9DF-5FA7-43BE-8607-7F7828BDEFEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
